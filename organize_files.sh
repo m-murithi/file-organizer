@@ -12,3 +12,9 @@ if ["$#" -lt 1]; then
     exit 1
 fi
 
+for DIR in "$@"; do
+    if [! -d "$DIR"]; then
+        echo "DIrectory $DIR does not exist."
+        continue
+    fi
+    cd "$DIR"
