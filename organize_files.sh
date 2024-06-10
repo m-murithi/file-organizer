@@ -12,9 +12,11 @@ if ["$#" -lt 1]; then
     exit 1
 fi
 
+LOG_FILE="organize_files.log"
+
 for DIR in "$@"; do
     if [! -d "$DIR"]; then
-        echo "DIrectory $DIR does not exist."
+        echo "DIrectory $DIR does not exist." | tee -a "$LOG_FILE"
         continue
     fi
     cd "$DIR"
@@ -25,9 +27,9 @@ for DIR in "$@"; do
             CATEGORY="${FILE_TYPES[$EXT]}"
             if [-n "$CATEGORY"]; then
                 mkdir -p "$CATEGORY"
-                mv "$FILE" "$CATEGORY/"
+                mv "$FILE" "$CATEGORY/" | tee -a "$LOG_FILE"
             else
-                echo "No category defined for file type .$EXT"
+                echo "No category defined for file type .$EXT. Skipping $FILE." | tee -a "$LOG_FILE"
             fi
         fi
     doc
