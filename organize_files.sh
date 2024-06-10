@@ -18,3 +18,18 @@ for DIR in "$@"; do
         continue
     fi
     cd "$DIR"
+
+    for FILE in *; do
+        if [-f "$FILE"]; then
+            EXT="${FILE##*.}"
+            CATEGORY="${FILE_TYPES[$EXT]}"
+            if [-n "$CATEGORY"]; then
+                mkdir -p "$CATEGORY"
+                mv "$FILE" "$CATEGORY/"
+            else
+                echo "No category defined for file type .$EXT"
+            fi
+        fi
+    doc
+    cd -> /dev/null
+done
